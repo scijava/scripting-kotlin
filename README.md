@@ -1,4 +1,4 @@
-[![](http://jenkins.imagej.net/job/scripting-kotlin/lastBuild/badge/icon)](http://jenkins.imagej.net/job/scripting-kotlin/)
+[![](http://jenkins.imagej.net/job/scripting-Kotlin/lastBuild/badge/icon)](http://jenkins.imagej.net/job/scripting-Kotlin/)
 
 # Kotlin Scripting
 
