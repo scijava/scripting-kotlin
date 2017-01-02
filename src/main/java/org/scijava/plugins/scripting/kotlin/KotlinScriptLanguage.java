@@ -2,7 +2,7 @@
  * #%L
  * SciJava wrapper around DynKT, a Kotlin JSR-223 implementation.
  * %%
- * Copyright (C) 2016 Board of Regents of the University of
+ * Copyright (C) 2016 - 2017 Board of Regents of the University of
  * Wisconsin-Madison.
  * %%
  * This program is free software: you can redistribute it and/or modify
