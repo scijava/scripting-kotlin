@@ -1,4 +1,4 @@
-[![](http://jenkins.imagej.net/job/scripting-Kotlin/lastBuild/badge/icon)](http://jenkins.imagej.net/job/scripting-Kotlin/)
+[![](https://travis-ci.org/scijava/scripting-kotlin.svg?branch=master)](https://travis-ci.org/scijava/scripting-kotlin)
 
 # Kotlin Scripting
 

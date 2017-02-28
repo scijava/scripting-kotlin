@@ -70,8 +70,8 @@
 		<url>https://github.com/scijava/scripting-kotlin/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>Jenkins</system>
-		<url>http://jenkins.imagej.net/job/scripting-kotlin/</url>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/scijava/scripting-kotlin</url>
 	</ciManagement>
 
 	<properties>
