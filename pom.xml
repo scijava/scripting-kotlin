@@ -14,7 +14,7 @@
 
 	<name>SciJava Scripting: Kotlin</name>
 	<description>SciJava wrapper around DynKT, a Kotlin JSR-223 implementation.</description>
-	<url>http://scijava.org/</url>
+	<url>https://github.com/scijava/scripting-kotlin</url>
 	<inceptionYear>2016</inceptionYear>
 	<organization>
 		<name>SciJava</name>
