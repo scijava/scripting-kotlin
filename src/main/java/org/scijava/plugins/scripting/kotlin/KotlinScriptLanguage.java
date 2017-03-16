@@ -1,6 +1,6 @@
 /*
  * #%L
- * SciJava wrapper around DynKT, a Kotlin JSR-223 implementation.
+ * JSR-223-compliant Kotlin scripting language plugin.
  * %%
  * Copyright (C) 2016 - 2017 Board of Regents of the University of
  * Wisconsin-Madison.
@@ -22,8 +22,12 @@
 
 package org.scijava.plugins.scripting.kotlin;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.script.ScriptEngine;
 
+import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngineFactory;
 import org.scijava.plugin.Plugin;
 import org.scijava.script.AdaptedScriptLanguage;
 import org.scijava.script.ScriptLanguage;
@@ -38,7 +42,18 @@ import org.scijava.script.ScriptLanguage;
 public class KotlinScriptLanguage extends AdaptedScriptLanguage {
 
 	public KotlinScriptLanguage() {
-		super("kotlin");
+		super(new KotlinJsr223JvmLocalScriptEngineFactory());
 	}
 
+	@Override
+	public List<String> getNames() {
+		// NB: The wrapped ScriptEngineFactory does not include Kotlin in its list.
+		return Arrays.asList("kotlin", "Kotlin");
+	}
+
+	@Override
+	public List<String> getExtensions() {
+		// NB: The wrapped ScriptEngineFactory does not include .kt in its list.
+		return Arrays.asList("kt", "kts");
+	}
 }
