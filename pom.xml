@@ -83,6 +83,9 @@ Wisconsin-Madison.</license.copyrightOwners>
 		<dynkt.version>1.0.2</dynkt.version>
 		<dynkt-jsr223.version>${dynkt.version}</dynkt-jsr223.version>
 		<kotlin.version>1.1.1</kotlin.version>
+
+		<!-- NB: Deploy releases to the ImageJ Maven repository. -->
+		<releaseProfiles>deploy-to-imagej</releaseProfiles>
 	</properties>
 
 	<repositories>
