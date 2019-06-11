@@ -86,6 +86,9 @@ Wisconsin-Madison.</license.copyrightOwners>
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>deploy-to-scijava</releaseProfiles>
+
+		<!-- NB: Work around duplicate classes issue in Kotlin dependencies-->
+		<allowedDuplicateClasses>kotlin.*,org.jetbrains.*</allowedDuplicateClasses>
 	</properties>
 
 	<repositories>
@@ -122,32 +125,4 @@ Wisconsin-Madison.</license.copyrightOwners>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<!-- Check desired rules during maven lifecycle. -->
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>enforce-rules</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<rules>
-						<banDuplicateClasses>
-							<ignoreClasses>
-								<ignoreClass>kotlin.*</ignoreClass>
-								<ignoreClass>org.jetbrains.*</ignoreClass>
-							</ignoreClasses>
-						</banDuplicateClasses>
-					</rules>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>
