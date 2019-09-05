@@ -45,7 +45,9 @@
 	</developers>
 	<contributors>
 		<contributor>
-			<name>None</name>
+			<name>Philipp Hanslovsky</name>
+			<url>https://imagej.net/User:Hanslovsky</url>
+			<properties><id>hanslovsky</id></properties>
 		</contributor>
 	</contributors>
 
