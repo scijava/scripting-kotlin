@@ -87,6 +87,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 
 		<!-- NB: Work around duplicate classes issue in Kotlin dependencies-->
 		<allowedDuplicateClasses>org/jetbrains/kotlin/daemon/common/*,kotlinx/coroutines/**</allowedDuplicateClasses>
+		<kotlin.version>1.4.21</kotlin.version>
 	</properties>
 
 	<repositories>
@@ -111,20 +112,14 @@ Wisconsin-Madison.</license.copyrightOwners>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-script-util</artifactId>
+			<artifactId>kotlin-stdlib</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-script-runtime</artifactId>
+			<artifactId>kotlin-scripting-jsr223</artifactId>
 			<version>${kotlin.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-scripting-compiler-embeddable</artifactId>
-			<version>${kotlin.version}</version>
-			<scope>runtime</scope>
+<!--			<scope>runtime</scope>-->
 		</dependency>
 
 		<!-- Test dependencies -->

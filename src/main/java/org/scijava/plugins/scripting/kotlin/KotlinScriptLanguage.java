@@ -30,15 +30,15 @@
 
 package org.scijava.plugins.scripting.kotlin;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.script.ScriptEngine;
-
-import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngineFactory;
+import org.jetbrains.kotlin.cli.common.repl.KotlinJsr223JvmScriptEngineFactoryBase;
 import org.scijava.plugin.Plugin;
 import org.scijava.script.AdaptedScriptLanguage;
 import org.scijava.script.ScriptLanguage;
+
+import javax.script.*;
+import java.io.Reader;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A SciJava {@link ScriptLanguage} for Kotlin.
@@ -50,7 +50,7 @@ import org.scijava.script.ScriptLanguage;
 public class KotlinScriptLanguage extends AdaptedScriptLanguage {
 
 	public KotlinScriptLanguage() {
-		super(new KotlinJsr223JvmLocalScriptEngineFactory());
+		super(new MyScriptEngineFactory());
 	}
 
 	@Override
@@ -63,5 +63,91 @@ public class KotlinScriptLanguage extends AdaptedScriptLanguage {
 	public List<String> getExtensions() {
 		// NB: The wrapped ScriptEngineFactory does not include .kt in its list.
 		return Arrays.asList("kt", "kts");
+	}
+
+	public static class MyScriptEngineFactory extends KotlinJsr223JvmScriptEngineFactoryBase {
+		@Override
+		public ScriptEngine getScriptEngine() {
+			return new SynchronizedScriptEngine(new ScriptEngineManager().getEngineByExtension("kts"));
+		}
+	}
+
+	public static class SynchronizedScriptEngine implements ScriptEngine {
+
+		private final ScriptEngine delegate;
+
+		public SynchronizedScriptEngine(final ScriptEngine delegate) {
+			this.delegate = delegate;
+		}
+
+		@Override
+		public synchronized Object eval(String s, ScriptContext scriptContext) throws ScriptException {
+			return delegate.eval(s, scriptContext);
+		}
+
+		@Override
+		public synchronized Object eval(Reader reader, ScriptContext scriptContext) throws ScriptException {
+			return delegate.eval(reader, scriptContext);
+		}
+
+		@Override
+		public synchronized Object eval(String s) throws ScriptException {
+			return delegate.eval(s);
+		}
+
+		@Override
+		public synchronized Object eval(Reader reader) throws ScriptException {
+			return delegate.eval(reader);
+		}
+
+		@Override
+		public synchronized Object eval(String s, Bindings bindings) throws ScriptException {
+			return delegate.eval(s, bindings);
+		}
+
+		@Override
+		public synchronized Object eval(Reader reader, Bindings bindings) throws ScriptException {
+			return delegate.eval(reader, bindings);
+		}
+
+		@Override
+		public synchronized void put(String s, Object o) {
+			delegate.put(s, o);
+		}
+
+		@Override
+		public synchronized Object get(String s) {
+			return delegate.get(s);
+		}
+
+		@Override
+		public synchronized Bindings getBindings(int i) {
+			return delegate.getBindings(i);
+		}
+
+		@Override
+		public synchronized void setBindings(Bindings bindings, int i) {
+			delegate.setBindings(bindings, i);
+		}
+
+		@Override
+		public synchronized Bindings createBindings() {
+			return delegate.createBindings();
+		}
+
+		@Override
+		public synchronized ScriptContext getContext() {
+			return delegate.getContext();
+		}
+
+		@Override
+		public synchronized void setContext(ScriptContext scriptContext) {
+			delegate.setContext(scriptContext);
+		}
+
+		@Override
+		public synchronized ScriptEngineFactory getFactory() {
+			return delegate.getFactory();
+		}
 	}
 }
