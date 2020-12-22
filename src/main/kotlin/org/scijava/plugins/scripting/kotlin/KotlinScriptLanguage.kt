@@ -43,6 +43,7 @@ import javax.script.*
  * A SciJava [ScriptLanguage] for Kotlin.
  *
  * @author Curtis Rueden
+ * @author Philipp Hanslovsky
  * @see ScriptEngine
  */
 @Plugin(type = ScriptLanguage::class, name = "Kotlin")
