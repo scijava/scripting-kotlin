@@ -29,14 +29,11 @@
  */
 package org.scijava.plugins.scripting.kotlin
 
-import org.scijava.plugins.scripting.kotlin.KotlinScriptLanguage.MyScriptEngineFactory
 import org.jetbrains.kotlin.cli.common.repl.KotlinJsr223JvmScriptEngineFactoryBase
 import org.scijava.plugin.Plugin
-import org.scijava.plugins.scripting.kotlin.KotlinScriptLanguage.SynchronizedScriptEngine
 import org.scijava.script.AdaptedScriptLanguage
 import org.scijava.script.ScriptLanguage
 import java.io.Reader
-import java.util.*
 import javax.script.*
 
 /**
@@ -47,14 +44,14 @@ import javax.script.*
  * @see ScriptEngine
  */
 @Plugin(type = ScriptLanguage::class, name = "Kotlin")
-class KotlinScriptLanguage : AdaptedScriptLanguage(MyScriptEngineFactory()) {
+class KotlinScriptLanguage : AdaptedScriptLanguage(Factory()) {
     // NB: The wrapped ScriptEngineFactory does not include Kotlin in its list.
     override fun getNames() = listOf("kotlin", "Kotlin")
 
     // NB: The wrapped ScriptEngineFactory does not include .kt in its list.
     override fun getExtensions() = listOf("kt", "kts")
 
-    class MyScriptEngineFactory : KotlinJsr223JvmScriptEngineFactoryBase() {
+    class Factory : KotlinJsr223JvmScriptEngineFactoryBase() {
         override fun getScriptEngine(): ScriptEngine {
             return SynchronizedScriptEngine(ScriptEngineManager().getEngineByExtension("kts"))
         }

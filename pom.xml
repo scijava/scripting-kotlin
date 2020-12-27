@@ -119,7 +119,6 @@ Wisconsin-Madison.</license.copyrightOwners>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-scripting-jsr223</artifactId>
 			<version>${kotlin.version}</version>
-<!--			<scope>runtime</scope>-->
 		</dependency>
 
 		<!-- Test dependencies -->
