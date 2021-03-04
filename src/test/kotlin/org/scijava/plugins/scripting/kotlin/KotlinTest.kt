@@ -29,10 +29,10 @@
  */
 package org.scijava.plugins.scripting.kotlin
 
-import org.junit.Assert
-import org.junit.Test
 import org.scijava.script.AbstractScriptLanguageTest
 import org.scijava.script.ScriptLanguage
+import org.testng.Assert
+import org.testng.annotations.Test
 import java.io.IOException
 import java.util.concurrent.ExecutionException
 import javax.script.ScriptContext
@@ -46,18 +46,28 @@ import kotlin.math.E
  * @author Curtis Rueden
  * @author Philipp Hanslovsky
  */
-class KotlinTest : AbstractScriptLanguageTest() {
+class KotlinTest {
 
     // TODO Why is kotlin not discovered by ScriptService?
     //      It is discovered in ImageJ/Fiji
 //    val context: Context = Context(ScriptService::class.java)
 //    val scriptService: ScriptService = context.getService(ScriptService::class.java)
 //    val kotlinLang: ScriptLanguage = scriptService.getLanguageByName("Kotlin")
+    init {
+        Class.forName("org.jetbrains.kotlin.cli.common.environment.UtilKt")
+            .methods
+            .also { println(it.map { m -> m.name }) }
+            .map { it }
+            .filter { it.name == "setIdeaIoUseFallback" }
+            .firstOrNull()
+            ?.let { println("oops"); it.invoke(null) }
+            ?: println("LOL?")
+    }
     val kotlinLang: ScriptLanguage = KotlinScriptLanguage()
     val engine: ScriptEngine = kotlinLang.scriptEngine
 
-    @Test
-    fun testDiscovery() = assertDiscovered(KotlinScriptLanguage::class.java)
+//    @Test
+//    fun testDiscovery() = assertDiscovered(KotlinScriptLanguage::class.java)
 
     @Test
     @Throws(InterruptedException::class, ExecutionException::class, IOException::class, ScriptException::class)
@@ -68,9 +78,13 @@ class KotlinTest : AbstractScriptLanguageTest() {
     @Throws(ScriptException::class)
     fun `test basic engine eval with bindings`() {
         try {
+            println(1)
             engine.put("Hello", ", SciJava!")
+            println(2)
             Assert.assertEquals(", SciJava!", engine.eval("Hello"))
+            println(3)
             Assert.assertEquals(", SciJava!", engine["Hello"])
+            println(4)
 
             val bindings = engine.createBindings()
             bindings["base"] = E

@@ -87,7 +87,11 @@ Wisconsin-Madison.</license.copyrightOwners>
 
 		<!-- NB: Work around duplicate classes issue in Kotlin dependencies-->
 		<allowedDuplicateClasses>org/jetbrains/kotlin/daemon/common/*,kotlinx/coroutines/**</allowedDuplicateClasses>
-		<kotlin.version>1.4.21</kotlin.version>
+		<kotlin.version>1.4.30</kotlin.version>
+		<!-- NB: Have to disable manifest-only jar ot be able to run tests on command line. -->
+		<!-- NB: Tests work in IntelliJ but manifest-only jar seems to mess with it on command line. -->
+		<!-- NB: cf: mvn surefire:help -Ddetail=true -->
+		<surefire.useManifestOnlyJar>false</surefire.useManifestOnlyJar>
 	</properties>
 
 	<repositories>
@@ -112,6 +116,21 @@ Wisconsin-Madison.</license.copyrightOwners>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-script-runtime</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-scripting-compiler-embeddable</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-scripting-compiler-impl-embeddable</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
@@ -120,13 +139,41 @@ Wisconsin-Madison.</license.copyrightOwners>
 			<artifactId>kotlin-scripting-jsr223</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-compiler-client-embeddable</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-script-util</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-scripting-jvm-host</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.1.0</version>
 			<scope>test</scope>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.junit.jupiter</groupId>-->
+<!--			<artifactId>junit-jupiter</artifactId>-->
+<!--			<version>5.7.1</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.jetbrains.kotlin</groupId>-->
+<!--			<artifactId>kotlin-test-junit5</artifactId>-->
+<!--			<version>${kotlin.version}</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.scijava</groupId>
 			<artifactId>scijava-common</artifactId>
