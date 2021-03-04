@@ -29,10 +29,13 @@
  */
 package org.scijava.plugins.scripting.kotlin
 
+import org.junit.Assert
+import org.junit.BeforeClass
+import org.junit.Test
+import org.scijava.Context
 import org.scijava.script.AbstractScriptLanguageTest
 import org.scijava.script.ScriptLanguage
-import org.testng.Assert
-import org.testng.annotations.Test
+import org.scijava.script.ScriptService
 import java.io.IOException
 import java.util.concurrent.ExecutionException
 import javax.script.ScriptContext
@@ -46,81 +49,45 @@ import kotlin.math.E
  * @author Curtis Rueden
  * @author Philipp Hanslovsky
  */
-class KotlinTest {
+class KotlinTest : AbstractScriptLanguageTest() {
 
-    // TODO Why is kotlin not discovered by ScriptService?
-    //      It is discovered in ImageJ/Fiji
-//    val context: Context = Context(ScriptService::class.java)
-//    val scriptService: ScriptService = context.getService(ScriptService::class.java)
-//    val kotlinLang: ScriptLanguage = scriptService.getLanguageByName("Kotlin")
-    init {
-        Class.forName("org.jetbrains.kotlin.cli.common.environment.UtilKt")
-            .methods
-            .also { println(it.map { m -> m.name }) }
-            .map { it }
-            .filter { it.name == "setIdeaIoUseFallback" }
-            .firstOrNull()
-            ?.let { println("oops"); it.invoke(null) }
-            ?: println("LOL?")
-    }
-    val kotlinLang: ScriptLanguage = KotlinScriptLanguage()
-    val engine: ScriptEngine = kotlinLang.scriptEngine
-
-//    @Test
-//    fun testDiscovery() = assertDiscovered(KotlinScriptLanguage::class.java)
+    @Test
+    fun testDiscovery() = assertDiscovered(KotlinScriptLanguage::class.java)
 
     @Test
     @Throws(InterruptedException::class, ExecutionException::class, IOException::class, ScriptException::class)
     fun `test basic script engine eval`() = Assert.assertEquals(3, engine.eval("1 + 2"))
 
-
     @Test
     @Throws(ScriptException::class)
     fun `test basic engine eval with bindings`() {
-        try {
-            println(1)
-            engine.put("Hello", ", SciJava!")
-            println(2)
-            Assert.assertEquals(", SciJava!", engine.eval("Hello"))
-            println(3)
-            Assert.assertEquals(", SciJava!", engine["Hello"])
-            println(4)
+        engine.put("Hello", ", SciJava!")
+        Assert.assertEquals(", SciJava!", engine.eval("Hello"))
+        Assert.assertEquals(", SciJava!", engine["Hello"])
 
-            val bindings = engine.createBindings()
-            bindings["base"] = E
-            val script = "import kotlin.math.*; base.pow(0)"
-            Assert.assertThrows(ScriptException::class.java) { engine.eval(script) }
-            Assert.assertEquals(1.0, engine.eval(script, bindings) as Double, 0.0)
-        } finally {
-            engine.getBindings(ScriptContext.ENGINE_SCOPE)?.clear()
-            Assert.assertNull(engine["Hello"])
-        }
+        val bindings = engine.createBindings()
+        bindings["base"] = E
+        val script = "import kotlin.math.*; base.pow(0)"
+        Assert.assertThrows(ScriptException::class.java) { engine.eval(script) }
+        Assert.assertEquals(1.0, engine.eval(script, bindings) as Double, 0.0)
+
+        // clear bindings and access variable Hello to cause ScriptException
+        engine.getBindings(ScriptContext.ENGINE_SCOPE)?.clear()
+        Assert.assertNull(engine["Hello"])
     }
 
-    // Code copied from original Java test
-    // FIXME: Calling methods on injected instance vars fails with
-    // "unresolved reference". Nor can we store values into the bindings map!
-    //	@Test
-    //	public void testParameters() throws InterruptedException, ExecutionException,
-    //		IOException, ScriptException
-    //	{
-    //		final Context context = new Context(ScriptService.class);
-    //		final ScriptService scriptService = context.getService(ScriptService.class);
-    //
-    //		final String script = "" + //
-    //			"// @ScriptService ss\n" + //
-    //			"// @OUTPUT String language\n" + //
-    //			"// @OUTPUT ScriptService ssOut\n" + //
-    //			"println(\"==> \" + bindings[\"ss\"])\n" + //
-    //			"bindings[\"ssOut\"] = bindings[\"ss\"]\n";
-    ////			"println(\"==> \" + ss.canHandleFile(\"/Users/curtis\"))\n";
-    ////			"val language = " + //
-    ////			"bindings[\"ss\"].getLanguageByName(\"kotlin\").getLanguageName()\n";
-    //		final ScriptModule m = scriptService.run("hello.kt", script, true).get();
-    //
-    //		final Object actual = m.getOutput("ssOut");
-    //		final Object expected =
-    //			scriptService.getLanguageByName("kotlin");
-    //		assertEquals(expected, actual);
-    //	}
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun initKotlinLang() {
+            val context = Context(ScriptService::class.java)
+            val scriptService: ScriptService = context.getService(ScriptService::class.java)
+            _kotlinLang = scriptService.getLanguageByName("Kotlin")
+            _engine = _kotlinLang.scriptEngine
+        }
+        private lateinit var _kotlinLang: ScriptLanguage
+        private lateinit var _engine: ScriptEngine
+        val engine get() = _engine
+    }
 }
