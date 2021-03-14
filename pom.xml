@@ -126,7 +126,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-script-util</artifactId>
+			<artifactId>kotlin-scripting-jvm-host</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
 

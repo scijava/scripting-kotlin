@@ -29,22 +29,13 @@
  */
 package org.scijava.plugins.scripting.kotlin
 
-import org.jetbrains.kotlin.cli.common.repl.*
-import org.jetbrains.kotlin.com.intellij.openapi.util.Disposer
-import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmDaemonCompileScriptEngine
-import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngine
-import org.jetbrains.kotlin.script.jsr223.KotlinStandardJsr223ScriptTemplate
+import org.jetbrains.kotlin.cli.common.repl.KotlinJsr223JvmScriptEngineFactoryBase
 import org.scijava.plugin.Plugin
 import org.scijava.script.AdaptedScriptLanguage
 import org.scijava.script.ScriptLanguage
 import java.io.Reader
-import java.lang.Exception
-import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.locks.ReentrantReadWriteLock
 import javax.script.*
-import kotlin.script.experimental.jvm.util.KotlinJars
-import kotlin.script.experimental.jvm.util.scriptCompilationClasspathFromContext
-import kotlin.system.exitProcess
+import kotlin.script.experimental.jsr223.KotlinJsr223DefaultScriptEngineFactory
 
 /**
  * A SciJava [ScriptLanguage] for Kotlin.
@@ -72,12 +63,26 @@ class KotlinScriptLanguage : AdaptedScriptLanguage(Factory()) {
 //                    { ctx, types -> ScriptArgsWithTypes(arrayOf(ctx.getBindings(ScriptContext.ENGINE_SCOPE)), types ?: emptyArray()) },
 //                    arrayOf(Bindings::class)
 //                )
-                KotlinJsr223JvmLocalScriptEngine(
-                    this,
-                    scriptCompilationClasspathFromContext("kotlin-script-util.jar", wholeClasspath = true),
-                    KotlinStandardJsr223ScriptTemplate::class.qualifiedName!!,
-                    { ctx, types -> ScriptArgsWithTypes(arrayOf(ctx.getBindings(ScriptContext.ENGINE_SCOPE)), types ?: emptyArray()) },
-                    arrayOf(Bindings::class))
+//                KotlinJsr223JvmLocalScriptEngine(
+//                    this,
+//                    scriptCompilationClasspathFromContext("kotlin-script-util.jar", wholeClasspath = true),
+//                    KotlinStandardJsr223ScriptTemplate::class.qualifiedName!!,
+//                    { ctx, types -> ScriptArgsWithTypes(arrayOf(ctx.getBindings(ScriptContext.ENGINE_SCOPE)), types ?: emptyArray()) },
+//                    arrayOf(Bindings::class))
+//                KotlinJsr223ScriptEngineImpl(
+//                    this,
+//                    scriptDefinition.compilationConfiguration.with {
+//                        jvm {
+//                            if (System.getProperty(KOTLIN_JSR223_RESOLVE_FROM_CLASSLOADER_PROPERTY) == "true") {
+//                                dependencies(JvmDependencyFromClassLoader { Thread.currentThread().contextClassLoader })
+//                            } else {
+//                                dependenciesFromCurrentContext()
+//                            }
+//                        }
+//                    },
+//                    scriptDefinition.evaluationConfiguration
+//                ) { ScriptArgsWithTypes(arrayOf(it.getBindings(ScriptContext.ENGINE_SCOPE).orEmpty()), arrayOf(Bindings::class)) }
+                KotlinJsr223DefaultScriptEngineFactory().scriptEngine
             )
         }
     }
