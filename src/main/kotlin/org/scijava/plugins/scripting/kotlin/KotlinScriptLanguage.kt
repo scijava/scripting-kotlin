@@ -53,38 +53,7 @@ class KotlinScriptLanguage : AdaptedScriptLanguage(Factory()) {
     override fun getExtensions() = listOf("kt", "kts")
 
     class Factory : KotlinJsr223JvmScriptEngineFactoryBase() {
-        override fun getScriptEngine(): ScriptEngine {
-            return SynchronizedScriptEngine(
-//                KotlinJsr223JvmDaemonCompileScriptEngine(
-//                    this,
-//                    KotlinJars.compilerWithScriptingClasspath,
-//                    scriptCompilationClasspathFromContext("kotlin-script-util.jar", wholeClasspath = true),
-//                    KotlinStandardJsr223ScriptTemplate::class.qualifiedName!!,
-//                    { ctx, types -> ScriptArgsWithTypes(arrayOf(ctx.getBindings(ScriptContext.ENGINE_SCOPE)), types ?: emptyArray()) },
-//                    arrayOf(Bindings::class)
-//                )
-//                KotlinJsr223JvmLocalScriptEngine(
-//                    this,
-//                    scriptCompilationClasspathFromContext("kotlin-script-util.jar", wholeClasspath = true),
-//                    KotlinStandardJsr223ScriptTemplate::class.qualifiedName!!,
-//                    { ctx, types -> ScriptArgsWithTypes(arrayOf(ctx.getBindings(ScriptContext.ENGINE_SCOPE)), types ?: emptyArray()) },
-//                    arrayOf(Bindings::class))
-//                KotlinJsr223ScriptEngineImpl(
-//                    this,
-//                    scriptDefinition.compilationConfiguration.with {
-//                        jvm {
-//                            if (System.getProperty(KOTLIN_JSR223_RESOLVE_FROM_CLASSLOADER_PROPERTY) == "true") {
-//                                dependencies(JvmDependencyFromClassLoader { Thread.currentThread().contextClassLoader })
-//                            } else {
-//                                dependenciesFromCurrentContext()
-//                            }
-//                        }
-//                    },
-//                    scriptDefinition.evaluationConfiguration
-//                ) { ScriptArgsWithTypes(arrayOf(it.getBindings(ScriptContext.ENGINE_SCOPE).orEmpty()), arrayOf(Bindings::class)) }
-                KotlinJsr223DefaultScriptEngineFactory().scriptEngine
-            )
-        }
+        override fun getScriptEngine() = SynchronizedScriptEngine(KotlinJsr223DefaultScriptEngineFactory().scriptEngine)
     }
 
     class SynchronizedScriptEngine(private val delegate: ScriptEngine) : ScriptEngine {
