@@ -156,6 +156,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 			</activation>
 			<properties>
 				<kotlin-compiler-embeddable.optional>true</kotlin-compiler-embeddable.optional>
+				<scijava.ignoreOptionalDependencies>true</scijava.ignoreOptionalDependencies>
 			</properties>
 			<build>
 				<plugins>
