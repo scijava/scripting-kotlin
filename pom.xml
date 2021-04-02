@@ -88,10 +88,15 @@ Wisconsin-Madison.</license.copyrightOwners>
 		<!-- NB: Work around duplicate classes issue in Kotlin dependencies-->
 		<allowedDuplicateClasses>org/jetbrains/kotlin/daemon/common/*,kotlinx/coroutines/**</allowedDuplicateClasses>
 		<kotlin.version>1.4.30</kotlin.version>
-		<!-- NB: Have to disable manifest-only jar ot be able to run tests on command line. -->
+		<!-- NB: We have to disable manifest-only jar ot be able to run tests on command line. -->
 		<!-- NB: Tests work in IntelliJ but manifest-only jar seems to mess with it on command line. -->
 		<!-- NB: cf: mvn surefire:help -Ddetail=true -->
 		<surefire.useManifestOnlyJar>false</surefire.useManifestOnlyJar>
+
+		<maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
+
+		<kotlin-compiler-embeddable.optional>false</kotlin-compiler-embeddable.optional>
+		<scijava-maven-plugin.version>2.1.0</scijava-maven-plugin.version>
 	</properties>
 
 	<repositories>
@@ -113,6 +118,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-compiler-embeddable</artifactId>
 			<version>${kotlin.version}</version>
+			<optional>${kotlin-compiler-embeddable.optional}</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
@@ -138,4 +144,55 @@ Wisconsin-Madison.</license.copyrightOwners>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<!-- The JetBrains trove4j fork clashes with the gnu trove4j jar in Fiji.
+			     We need to shade and relocate in this case. -->
+			<id>shade-trove4j-fork</id>
+			<activation>
+				<property>
+					<name>scijava.app.directory</name>
+				</property>
+			</activation>
+			<properties>
+				<kotlin-compiler-embeddable.optional>true</kotlin-compiler-embeddable.optional>
+				<scijava.ignoreOptionalDependencies>true</scijava.ignoreOptionalDependencies>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<version>${maven-shade-plugin.version}</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<artifactSet>
+										<includes>
+											<include>org.jetbrains.intellij.deps:trove4j</include>
+											<include>org.jetbrains.kotlin:kotlin-compiler-embeddable</include>
+											<include>org.jetbrains.kotlin:kotlin-script-runtime</include>
+											<include>org.jetbrains.kotlin:kotlin-reflect</include>
+											<include>org.jetbrains.kotlin:kotlin-daemon-embeddable</include>
+										</includes>
+									</artifactSet>
+									<relocations>
+										<relocation>
+											<pattern>gnu.trove</pattern>
+											<shadedPattern>gnu.trove.shaded</shadedPattern>
+										</relocation>
+									</relocations>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

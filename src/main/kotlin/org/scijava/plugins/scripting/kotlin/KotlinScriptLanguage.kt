@@ -35,6 +35,7 @@ import org.scijava.script.AdaptedScriptLanguage
 import org.scijava.script.ScriptLanguage
 import java.io.Reader
 import javax.script.*
+import kotlin.script.experimental.jsr223.KotlinJsr223DefaultScriptEngineFactory
 
 /**
  * A SciJava [ScriptLanguage] for Kotlin.
@@ -52,9 +53,7 @@ class KotlinScriptLanguage : AdaptedScriptLanguage(Factory()) {
     override fun getExtensions() = listOf("kt", "kts")
 
     class Factory : KotlinJsr223JvmScriptEngineFactoryBase() {
-        override fun getScriptEngine(): ScriptEngine {
-            return SynchronizedScriptEngine(ScriptEngineManager().getEngineByExtension("kts"))
-        }
+        override fun getScriptEngine() = SynchronizedScriptEngine(KotlinJsr223DefaultScriptEngineFactory().scriptEngine)
     }
 
     class SynchronizedScriptEngine(private val delegate: ScriptEngine) : ScriptEngine {
