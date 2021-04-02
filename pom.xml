@@ -96,6 +96,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 		<maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
 
 		<kotlin-compiler-embeddable.optional>false</kotlin-compiler-embeddable.optional>
+		<scijava-maven-plugin.version>2.1.0</scijava-maven-plugin.version>
 	</properties>
 
 	<repositories>
