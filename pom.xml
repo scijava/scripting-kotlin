@@ -137,12 +137,6 @@ Wisconsin-Madison.</license.copyrightOwners>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>scijava-common</artifactId>
-			<classifier>tests</classifier>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<profiles>
