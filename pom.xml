@@ -170,7 +170,6 @@ Wisconsin-Madison.</license.copyrightOwners>
 										<includes>
 											<include>org.jetbrains.intellij.deps:trove4j</include>
 											<include>org.jetbrains.kotlin:kotlin-compiler-embeddable</include>
-											<include>org.jetbrains.kotlin:kotlin-script-runtime</include>
 											<include>org.jetbrains.kotlin:kotlin-reflect</include>
 											<include>org.jetbrains.kotlin:kotlin-daemon-embeddable</include>
 										</includes>
