@@ -95,7 +95,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 
 		<maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
 
-		<kotlin-compiler-embeddable.optional>false</kotlin-compiler-embeddable.optional>
+		<shaded-jars.optional>false</shaded-jars.optional>
 		<scijava-maven-plugin.version>2.1.0</scijava-maven-plugin.version>
 	</properties>
 
@@ -118,7 +118,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-compiler-embeddable</artifactId>
 			<version>${kotlin.version}</version>
-			<optional>${kotlin-compiler-embeddable.optional}</optional>
+			<optional>${shaded-jars.optional}</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
@@ -129,18 +129,13 @@ Wisconsin-Madison.</license.copyrightOwners>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-scripting-jsr223</artifactId>
 			<version>${kotlin.version}</version>
+			<optional>${shaded-jars.optional}</optional>
 		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>scijava-common</artifactId>
-			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -156,7 +151,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 				</property>
 			</activation>
 			<properties>
-				<kotlin-compiler-embeddable.optional>true</kotlin-compiler-embeddable.optional>
+				<shaded-jars.optional>true</shaded-jars.optional>
 				<scijava.ignoreOptionalDependencies>true</scijava.ignoreOptionalDependencies>
 			</properties>
 			<build>
@@ -176,9 +171,16 @@ Wisconsin-Madison.</license.copyrightOwners>
 										<includes>
 											<include>org.jetbrains.intellij.deps:trove4j</include>
 											<include>org.jetbrains.kotlin:kotlin-compiler-embeddable</include>
-											<include>org.jetbrains.kotlin:kotlin-script-runtime</include>
 											<include>org.jetbrains.kotlin:kotlin-reflect</include>
 											<include>org.jetbrains.kotlin:kotlin-daemon-embeddable</include>
+											<include>org.jetbrains.kotlin:kotlin-script-runtime</include>
+											<include>org.jetbrains.kotlin:kotlin-scripting-jsr223</include>
+											<include>org.jetbrains.kotlin:kotlin-scripting-common</include>
+											<include>org.jetbrains.kotlinx:kotlinx-coroutines-core</include>
+											<include>org.jetbrains.kotlin:kotlin-scripting-jvm</include>
+											<include>org.jetbrains.kotlin:kotlin-scripting-jvm-host</include>
+											<include>org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable</include>
+											<include>org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable</include>
 										</includes>
 									</artifactSet>
 									<relocations>

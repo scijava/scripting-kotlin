@@ -33,15 +33,16 @@ import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 import org.scijava.Context
-import org.scijava.script.AbstractScriptLanguageTest
 import org.scijava.script.ScriptLanguage
 import org.scijava.script.ScriptService
 import java.io.IOException
 import java.util.concurrent.ExecutionException
 import javax.script.ScriptContext
 import javax.script.ScriptEngine
+import javax.script.ScriptEngineManager
 import javax.script.ScriptException
 import kotlin.math.E
+
 
 /**
  * Kotlin unit tests.
@@ -49,10 +50,10 @@ import kotlin.math.E
  * @author Curtis Rueden
  * @author Philipp Hanslovsky
  */
-class KotlinTest : AbstractScriptLanguageTest() {
+class KotlinTest {
 
     @Test
-    fun testDiscovery() = assertDiscovered(KotlinScriptLanguage::class.java)
+    fun testDiscovery() = KotlinScriptLanguage::class.java.assertDiscovered()
 
     @Test
     @Throws(InterruptedException::class, ExecutionException::class, IOException::class, ScriptException::class)
@@ -90,4 +91,11 @@ class KotlinTest : AbstractScriptLanguageTest() {
         private lateinit var _engine: ScriptEngine
         val engine get() = _engine
     }
+}
+
+fun Class<out ScriptLanguage?>.assertDiscovered() {
+    ScriptEngineManager()
+        .engineFactories
+        .firstOrNull { isInstance(it) }
+        ?: Assert.fail("$name not discovered by JSR-223 framework")
 }
