@@ -1,4 +1,4 @@
-[![](https://travis-ci.org/scijava/scripting-kotlin.svg?branch=master)](https://travis-ci.org/scijava/scripting-kotlin)
+[![](https://github.com/scijava/scripting-kotlin/actions/workflows/build-main.yml/badge.svg)](https://github.com/scijava/scripting-kotlin/actions/workflows/build-main.yml)
 
 # Kotlin Scripting
 
