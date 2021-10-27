@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>scripting-kotlin</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 
 	<name>SciJava Scripting: Kotlin</name>
 	<description>JSR-223-compliant Kotlin scripting language plugin.</description>
