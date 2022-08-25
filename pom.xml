@@ -92,10 +92,7 @@ Wisconsin-Madison.</license.copyrightOwners>
 		<!-- NB: cf: mvn surefire:help -Ddetail=true -->
 		<surefire.useManifestOnlyJar>false</surefire.useManifestOnlyJar>
 
-		<maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
-
 		<kotlin-compiler-embeddable.optional>false</kotlin-compiler-embeddable.optional>
-		<scijava-maven-plugin.version>2.1.0</scijava-maven-plugin.version>
 		<!-- NB: kotlin requires 1.X for versions up to 8. This can be removed when scijava.jvm.version goes to 9 -->
 		<kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
 	</properties>
