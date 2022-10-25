@@ -95,6 +95,8 @@ Wisconsin-Madison.</license.copyrightOwners>
 		<kotlin-compiler-embeddable.optional>false</kotlin-compiler-embeddable.optional>
 		<!-- NB: kotlin requires 1.X for versions up to 8. This can be removed when scijava.jvm.version goes to 9 -->
 		<kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
+
+		<kotlin.version>1.7.20</kotlin.version>
 	</properties>
 
 	<repositories>
