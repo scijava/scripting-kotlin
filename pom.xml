@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>37.0.0</version>
+		<version>44.0.0</version>
 		<relativePath />
 	</parent>
 
@@ -31,7 +31,7 @@
 		<developer>
 			<id>ctrueden</id>
 			<name>Curtis Rueden</name>
-			<url>https://imagej.net/User:Rueden</url>
+			<url>https://imagej.net/people/ctrueden</url>
 			<roles>
 				<role>founder</role>
 				<role>lead</role>
@@ -46,7 +46,7 @@
 	<contributors>
 		<contributor>
 			<name>Philipp Hanslovsky</name>
-			<url>https://imagej.net/User:Hanslovsky</url>
+			<url>https://imagej.net/people/hanslovsky</url>
 			<properties><id>hanslovsky</id></properties>
 		</contributor>
 	</contributors>
@@ -77,32 +77,30 @@
 	</ciManagement>
 
 	<properties>
+		<scijava.jvm.version>1.8</scijava.jvm.version>
+
 		<package-name>org.scijava.plugins.scripting.kotlin</package-name>
 		<license.licenseName>bsd_2</license.licenseName>
-		<license.copyrightOwners>Board of Regents of the University of
-Wisconsin-Madison.</license.copyrightOwners>
+		<license.copyrightOwners>SciJava developers.</license.copyrightOwners>
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
 
-		<!-- NB: Work around duplicate classes issue in Kotlin dependencies-->
+		<!-- NB: Work around duplicate classes issue in Kotlin dependencies. -->
 		<allowedDuplicateClasses>org/jetbrains/kotlin/daemon/common/*,kotlinx/coroutines/**</allowedDuplicateClasses>
-		<!-- NB: We have to disable manifest-only jar ot be able to run tests on command line. -->
+
+		<!-- NB: We have to disable manifest-only jar to be able to run tests on command line. -->
 		<!-- NB: Tests work in IntelliJ but manifest-only jar seems to mess with it on command line. -->
 		<!-- NB: cf: mvn surefire:help -Ddetail=true -->
 		<surefire.useManifestOnlyJar>false</surefire.useManifestOnlyJar>
 
 		<kotlin-compiler-embeddable.optional>false</kotlin-compiler-embeddable.optional>
-		<!-- NB: kotlin requires 1.X for versions up to 8. This can be removed when scijava.jvm.version goes to 9 -->
-		<kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
-
-		<kotlin.version>1.9.23</kotlin.version>
 	</properties>
 
 	<repositories>
 		<repository>
 			<id>scijava.public</id>
-			<url>https://maven.scijava.org/content/groups/public/</url>
+			<url>https://maven.scijava.org/content/groups/public</url>
 		</repository>
 	</repositories>
 
@@ -126,7 +124,6 @@ Wisconsin-Madison.</license.copyrightOwners>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-scripting-jsr223</artifactId>
-			<version>${kotlin.version}</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -145,8 +142,10 @@ Wisconsin-Madison.</license.copyrightOwners>
 
 	<profiles>
 		<profile>
-			<!-- The JetBrains trove4j fork clashes with the gnu trove4j jar in Fiji.
-			     We need to shade and relocate in this case. -->
+			<!--
+			The JetBrains trove4j fork clashes with the gnu trove4j jar in Fiji.
+			We need to shade and relocate in this case.
+			-->
 			<id>shade-trove4j-fork</id>
 			<activation>
 				<property>
