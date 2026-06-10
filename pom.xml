@@ -133,6 +133,44 @@
 	<profiles>
 		<profile>
 			<!--
+			This is a pure-Kotlin project with no Java sources, so the
+			maven-javadoc-plugin produces nothing ("No Javadoc in project").
+			Use Dokka (managed by the pom-scijava parent hierarchy) to generate
+			the javadoc JAR that Maven Central requires at release time.
+
+			Reuse the sonatype-oss-release profile id so this Dokka execution is
+			added to that profile when it activates, which the
+			maven-release-plugin does during release:perform via the parent's
+			releaseProfiles setting. This mirrors when the maven-javadoc-plugin
+			runs for non-Kotlin projects, so a plain "mvn package" does not pay
+			this Dokka cost.
+
+			NB: Remove this profile once the project's parent includes the Dokka
+			javadoc-jar wiring in pom-scijava-base's kotlin profile.
+			-->
+			<id>sonatype-oss-release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jetbrains.dokka</groupId>
+						<artifactId>dokka-maven-plugin</artifactId>
+						<version>${dokka-maven-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>attach-javadoc-jar</id>
+								<phase>package</phase>
+								<goals>
+									<goal>javadocJar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!--
 			The JetBrains trove4j fork clashes with the gnu trove4j jar in Fiji.
 			We need to shade and relocate in this case.
 			-->
