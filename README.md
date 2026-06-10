@@ -2,9 +2,10 @@
 
 # Kotlin Scripting
 
-This library provides a scripting plugin wrapping the
-[DynKT](https://github.com/xafero/dynkt) library, a JSR-223 engine for the
-[Kotlin](https://kotlinlang.org/) language.
+This library provides a scripting plugin wrapping the JSR-223 engine for the
+[Kotlin](https://kotlinlang.org/) language using the
+`KotlinJsr223DefaultScriptEngineFactory`.
+
 
 It is implemented as a `ScriptLanguage` plugin for the [SciJava
 Common](https://github.com/scijava/scijava-common) platform, which means that
@@ -17,6 +18,9 @@ platform, see the
 [Scripting](https://github.com/scijava/scijava-common/wiki/Scripting) page on
 the SciJava Common wiki.
 
-See also:
-* [Kotlin Scripting](http://imagej.net/Kotlin_Scripting)
-  on the ImageJ wiki.
+## Installation into Fiji
+
+Clone this repository and run, at the root of this repository:
+```shell
+mvn -Dscijava.app.directory=/path/to/Fiji.app
+```
