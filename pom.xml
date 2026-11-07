@@ -92,9 +92,6 @@
 		<surefire.useManifestOnlyJar>false</surefire.useManifestOnlyJar>
 
 		<kotlin-compiler-embeddable.optional>false</kotlin-compiler-embeddable.optional>
-
-		<!-- NB: Deploy releases to the SciJava Maven repository. -->
-		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
 	</properties>
 
 	<dependencies>
